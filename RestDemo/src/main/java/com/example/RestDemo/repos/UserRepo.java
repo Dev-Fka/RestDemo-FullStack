@@ -6,5 +6,6 @@ import com.example.RestDemo.entities.User;
 
 @Repository
 public interface UserRepo extends JpaRepository<User, Integer> {
-
+	
+	User findByIdentyNum(String identyNum);
 }

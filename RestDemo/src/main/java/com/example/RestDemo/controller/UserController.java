@@ -39,6 +39,7 @@ public class UserController {
 		return userService.getOneUser(id);
 	}
 	
+	
 	@PostMapping()
 	public User saveUser(@RequestBody User newUser) {
 		return userService.saveUser(newUser);
@@ -57,5 +58,20 @@ public class UserController {
 	@GetMapping("/tasks")
 	public List<Task> getAllTask(){
 		return taskService.getAll();
+	}
+	
+	@GetMapping("/tasks/{id}")
+	public Task getOneTask(@PathVariable int id) {
+		return taskService.getOneTask(id);
+	}
+	
+	@GetMapping("/{id}/tasks")
+	public List<Task> getUsersTask(@PathVariable int id){
+		return taskService.getUsersTask(id);
+	}
+	
+	@PostMapping("/{id}/tasks")
+	public Task saveTask(@PathVariable int id,@RequestBody Task newTask) {
+		return taskService.addUserTask(id, newTask);
 	}
 }

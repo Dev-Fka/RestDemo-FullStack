@@ -24,12 +24,17 @@ public class UserService {
 	}
 	
 	public User saveUser(User newUser) {
-		if(newUser==null) {
-			return null;
-		}else {
+		User foundedUser=userRepo.findByIdentyNum(newUser.getIdentyNum());
+		if(foundedUser==null) {
 			userRepo.save(newUser);
 			return newUser;
+		}else {
+			return null;
 		}
+	}
+	
+	public User getByIdenty(User user) {
+		return userRepo.findByIdentyNum(user.getIdentyNum());
 	}
 	
 	public User updateUser(int id,User updateUser) {
@@ -37,8 +42,8 @@ public class UserService {
 		if(user.isPresent()) {
 			User updatedForUser=user.get();
 			updatedForUser.setEmail(updateUser.getEmail());
-			updatedForUser.setName(updateUser.getEmail());
-			
+			updatedForUser.setName(updateUser.getName());
+			updatedForUser.setActived(updateUser.getActived());
 			userRepo.save(updatedForUser);
 			return updatedForUser;
 		}else {

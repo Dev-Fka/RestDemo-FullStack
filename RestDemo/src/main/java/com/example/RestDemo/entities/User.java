@@ -7,6 +7,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.springframework.beans.factory.annotation.Value;
+
 
 @Entity
 @Table(name="User")
@@ -17,23 +19,28 @@ public class User {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 	
-	@Column(name="name")
+	@Column(name="name",nullable = false)
 	private String name;
 	
-	@Column(name="email")
+	@Column(name="email",nullable = false)
 	private String email;
 	
-	@Column(name="gender")
+	@Column(name="gender",nullable = false)
 	private String gender;
+	
+	@Column(name="actived",nullable = false)
+	private Boolean actived;
 	
 	@Column(name="identyNum",length = 11,unique = true)
 	private String identyNum;
 
-	public User(int id, String name, String email, String gender, String identyNum) {
+	public User(int id, String name, String email, String gender, boolean actived, String identyNum) {
+		super();
 		this.id = id;
 		this.name = name;
 		this.email = email;
 		this.gender = gender;
+		this.actived = actived;
 		this.identyNum = identyNum;
 	}
 
@@ -71,6 +78,14 @@ public class User {
 		this.gender = gender;
 	}
 
+	public Boolean getActived() {
+		return actived;
+	}
+
+	public void setActived(Boolean actived) {
+		this.actived = actived;
+	}
+
 	public String getIdentyNum() {
 		return identyNum;
 	}
@@ -78,6 +93,8 @@ public class User {
 	public void setIdentyNum(String identyNum) {
 		this.identyNum = identyNum;
 	}
+	
+	
 	
 	
 }	
