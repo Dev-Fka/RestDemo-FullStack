@@ -7,20 +7,19 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-import org.springframework.beans.factory.annotation.Value;
 
 
 @Entity
-@Table(name="User")
-public class User {
+@Table(name="Person")
+public class Person {
 	
 	@Id
 	@Column(name="id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 	
-	@Column(name="name",nullable = false)
-	private String name;
+	@Column(name="personName",nullable = false)
+	private String personName;
 	
 	@Column(name="email",nullable = false)
 	private String email;
@@ -34,17 +33,17 @@ public class User {
 	@Column(name="identyNum",length = 11,unique = true)
 	private String identyNum;
 
-	public User(int id, String name, String email, String gender, boolean actived, String identyNum) {
+	public Person(int id, String personName, String email, String gender, Boolean actived, String identyNum) {
 		super();
 		this.id = id;
-		this.name = name;
+		this.personName = personName;
 		this.email = email;
 		this.gender = gender;
 		this.actived = actived;
 		this.identyNum = identyNum;
 	}
 
-	public User() {}
+	public Person () {}
 
 	public int getId() {
 		return id;
@@ -54,12 +53,12 @@ public class User {
 		this.id = id;
 	}
 
-	public String getName() {
-		return name;
+	public String getPersonName() {
+		return personName;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setPersonName(String personName) {
+		this.personName = personName;
 	}
 
 	public String getEmail() {
@@ -95,7 +94,5 @@ public class User {
 	}
 	
 	
-	
-	
-}	
+}
 

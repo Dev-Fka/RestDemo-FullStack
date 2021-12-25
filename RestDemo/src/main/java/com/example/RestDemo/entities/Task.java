@@ -8,8 +8,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name="Task")
@@ -22,9 +22,9 @@ public class Task {
 	
 	@ManyToOne
 	@JoinColumn(name="userId")
-	private User user;
+	private Person person;
 	
-	@Column(name="taskName",unique = true)
+	@Column(name="taskName",nullable=false)
 	String taskName;
 	
 	@Column(name="description")
@@ -33,15 +33,16 @@ public class Task {
 	@Column(name="isFinished",nullable = false)
 	boolean isFinished;
 
-	public Task(int id, User user, String taskName, String description, boolean isFinished) {
+	public Task(int id, Person person, String taskName, String description, boolean isFinished) {
+		super();
 		this.id = id;
-		this.user = user;
+		this.person = person;
 		this.taskName = taskName;
 		this.description = description;
 		this.isFinished = isFinished;
 	}
-	
-	public Task() {}
+
+	public Task () {}
 
 	public int getId() {
 		return id;
@@ -51,12 +52,12 @@ public class Task {
 		this.id = id;
 	}
 
-	public User getUser() {
-		return user;
+	public Person getPerson() {
+		return person;
 	}
 
-	public void setUser(User user) {
-		this.user = user;
+	public void setPerson(Person person) {
+		this.person = person;
 	}
 
 	public String getTaskName() {

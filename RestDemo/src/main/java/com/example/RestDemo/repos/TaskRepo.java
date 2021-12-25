@@ -9,5 +9,5 @@ import com.example.RestDemo.entities.Task;
 
 @Repository
 public interface TaskRepo extends JpaRepository<Task, Integer> {
-	List<Task> findByUserId(int userId);
+	List<Task> findByPersonId(int userId);
 }
