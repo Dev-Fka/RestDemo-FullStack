@@ -12,6 +12,9 @@ const Navbar = () => {
                 <Link className="nav-link" href="/">
                   <a className="btn btn-secondary">HOME PAGE</a>
                 </Link>
+                <Link href="/addUser" passHref>
+                  <button className="btn btn-info ms-2 ">ADD USER</button>
+                </Link>
               </li>
             </ul>
           </div>

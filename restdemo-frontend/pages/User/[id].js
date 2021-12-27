@@ -1,53 +1,58 @@
 import Link from "next/link";
 import React, { useState } from "react";
-import { TiTick, TiTimes } from "react-icons/ti";
+import { useEffect } from "react/cjs/react.development";
 
-const UserDetails = ({ User }) => {
+const UserDetails = ({ User, Todos }) => {
   const [message, setMessage] = useState("");
   const [alert, setAlert] = useState("");
+  const [tasks,setTasks] =useState([])
+
+  useEffect(()=>(
+    setTasks(Todos.data)
+  ),[])
 
   const deletePerson = async (id) => {
-    const req = await fetch(`http://localhost:8080/api/persons/${id}`, {
-      method: `DELETE`,
-    });
-    const data = await req.json();
-    console.log(data);
-    if (data) {
-      setMessage("BAŞARILI")
-      setAlert("alert alert-success")
-
+    const req = await fetch(
+      `https://gorest.co.in/public/v1/users/${User.data.id}`,
+      {
+        method: `DELETE`,
+        headers: {
+          Authorization:
+            "Bearer 0abfbc7ca0c4aae74b6c142ae498d4ab7bc755d9c8b6fee6fefa8d38e11af48b",
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    if (req.status == 204) {
+      setMessage("Success,Going HomePage");
+      setAlert("alert alert-success");
     } else {
-      setMessage("BAŞARISIZ!")
-      setAlert("alert alert-danger")
+      setMessage("BAŞARISIZ!");
+      setAlert("alert alert-danger");
     }
-    alertDel()
-    
+    alertDel();
   };
 
-  const alertDel=()=>{
-    setTimeout(()=>{
-      //setAlert("visually-hidden")
-      window.location.href = 'http://localhost:3000';
-    },3000)
-  }
-  
+  const alertDel = () => {
+    setTimeout(() => {
+      window.location.href = "http://localhost:3000";
+    }, 2000);
+  };
+
   return (
     <div className="container py-5">
-      <div className={`${alert}`}>{message}</div>
+      <div className={`${alert} text-center`}>{message}</div>
       <div className="row justify-content-center">
         <div className="col-md-6">
           <div className="card">
             <div className="card-body">
-              <h5 className="card-title">Kimlik No: {User.identyNum}</h5>
-              <p className="card-text">İsim: {User.personName}</p>
-              <p className="card-text">E-Mail : {User.email}</p>
-              <p className="card-text">
-                Actived :
-                {User.actived ? <TiTick></TiTick> : <TiTimes></TiTimes>}
-              </p>
-              <p className="card-text">Gender : {User.gender}</p>
+              <p className="card-text">İsim: {User.data.name}</p>
+              <p className="card-text">E-Mail : {User.data.email}</p>
+              <p className="card-text">Actived :{User.data.status}</p>
+              <p className="card-text">Gender : {User.data.gender}</p>
               <div className="d-flex justify-content-around">
-                <Link href={`/settings/${User.id}`}>
+                <Link href={`/settings/${User.data.id}`}>
                   <a className="btn btn-primary">Düzenle</a>
                 </Link>
                 <button
@@ -60,6 +65,42 @@ const UserDetails = ({ User }) => {
             </div>
           </div>
         </div>
+        <div className="col-md-3 ">
+          <Link href="/addTask">
+            <a className="btn btn-danger">ADD TASK</a>
+          </Link>
+        </div>
+      </div>
+      <div className="row">
+        <div className="container text-center">
+          <h2>TASKS</h2>
+        </div>
+        <hr />
+      </div>
+      <div className="row justify-content-center">
+        {tasks.map((task) => (
+          <div key={task.id} className="col-sm-3">
+            <div className="card">
+              <div className="card-body">
+                <p className="card-text">İsim: {task.title}</p>
+                <p className="card-text">E-Mail : {User.data.email}</p>
+                <p className="card-text">Actived :{User.data.status}</p>
+                <p className="card-text">Gender : {User.data.gender}</p>
+                <div className="d-flex justify-content-around">
+                  <Link href={`/settings/${User.data.id}`}>
+                    <a className="btn btn-primary">Düzenle</a>
+                  </Link>
+                  <button
+                    onClick={() => deletePerson(User.id)}
+                    className="btn btn-danger"
+                  >
+                    Sil
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        ))}
       </div>
     </div>
   );
@@ -69,12 +110,17 @@ export default UserDetails;
 
 export const getServerSideProps = async (context) => {
   const res = await fetch(
-    `http://localhost:8080/api/persons/${context.params.id}`
+    `https://gorest.co.in/public/v1/users/${context.params.id}`
+  );
+  const res2 = await fetch(
+    `https://gorest.co.in/public/v1/users/${context.params.id}/todos`
   );
   const User = await res.json();
+  const Todos = await res2.json();
   return {
     props: {
       User,
+      Todos,
     },
   };
 };

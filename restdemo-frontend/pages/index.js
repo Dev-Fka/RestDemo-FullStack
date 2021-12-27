@@ -4,13 +4,42 @@ import React, { useEffect, useState } from "react";
 import { TiTick, TiTimes } from "react-icons/ti";
 
 export default function Home({ data }) {
-  const [users, setUsers] = useState([]);
+  const [val, setVal] = useState([]);
+  const [num, setNum] = useState(2);
 
   useEffect(() => {
-    {
-      setUsers(data);
-    }
+    setVal(data.data);
   }, []);
+
+  const requestNextPage = async () => {
+    if (num == 0) {
+      setNum(num + 1);
+      const res = await fetch(
+        `https://gorest.co.in/public/v1/users?page=${num}`
+      );
+      const data = await res.json();
+      setVal(data.data);
+    } else {
+      const res = await fetch(
+        `https://gorest.co.in/public/v1/users?page=${num}`
+      );
+      const data = await res.json();
+      setVal(data.data);
+      setNum(num + 1);
+    }
+  };
+
+  const requestPreviousPage = async () => {
+    if (num == 0) {
+    } else {
+      const res = await fetch(
+        `https://gorest.co.in/public/v1/users?page=${num}`
+      );
+      const data = await res.json();
+      setVal(data.data);
+      setNum(num - 1);
+    }
+  };
 
   return (
     <div>
@@ -29,20 +58,18 @@ export default function Home({ data }) {
                 <th scope="col">Name</th>
                 <th scope="col">E-Mail</th>
                 <th scope="col">Gender</th>
-                <th scope="col">Actived</th>
+                <th scope="col">Status</th>
                 <th scope="col">Detail</th>
               </tr>
             </thead>
             <tbody>
-              {users.map((user) => (
+              {val.map((user) => (
                 <tr key={user.id}>
                   <th scope="row">{user.id}</th>
-                  <td>{user.personName}</td>
+                  <td>{user.name}</td>
                   <td>{user.email}</td>
                   <td>{user.gender}</td>
-                  <td>
-                    {user.actived ? <TiTick></TiTick> : <TiTimes></TiTimes>}
-                  </td>
+                  <td>{user.status}</td>
                   <td>
                     <Link href={`/User/${user.id}`}>
                       <a className="btn btn-primary">Details</a>
@@ -52,9 +79,18 @@ export default function Home({ data }) {
               ))}
             </tbody>
           </table>
-          <Link href="/addUser" passHref>
-            <button className="btn btn-info float-end">ADD USER</button>
-          </Link>
+          <button
+            className="btn btn-info float-start mb-3"
+            onClick={() => requestPreviousPage()}
+          >
+            Previous
+          </button>
+          <button
+            className="btn btn-danger float-end mb-3"
+            onClick={() => requestNextPage()}
+          >
+            Next
+          </button>
         </div>
       </main>
     </div>
@@ -62,7 +98,7 @@ export default function Home({ data }) {
 }
 
 export async function getStaticProps() {
-  const res = await fetch("http://localhost:8080/api/persons");
+  const res = await fetch("https://gorest.co.in/public/v1/users");
   const data = await res.json();
   return {
     props: {
