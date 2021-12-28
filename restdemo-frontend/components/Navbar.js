@@ -15,6 +15,12 @@ const Navbar = () => {
                 <Link href="/addUser" passHref>
                   <button className="btn btn-info ms-2 ">ADD USER</button>
                 </Link>
+                <Link href="/tasks" passHref>
+                  <button className="btn btn-info ms-2 ">TASKS</button>
+                </Link>
+                <Link href="/searchUser" passHref>
+                  <button className="btn btn-info ms-2 ">SEARCH USER</button>
+                </Link>
               </li>
             </ul>
           </div>

@@ -5,11 +5,9 @@ import { useEffect } from "react/cjs/react.development";
 const UserDetails = ({ User, Todos }) => {
   const [message, setMessage] = useState("");
   const [alert, setAlert] = useState("");
-  const [tasks,setTasks] =useState([])
+  const [tasks, setTasks] = useState([]);
 
-  useEffect(()=>(
-    setTasks(Todos.data)
-  ),[])
+  useEffect(() => setTasks(Todos.data), []);
 
   const deletePerson = async (id) => {
     const req = await fetch(
@@ -65,11 +63,6 @@ const UserDetails = ({ User, Todos }) => {
             </div>
           </div>
         </div>
-        <div className="col-md-3 ">
-          <Link href="/addTask">
-            <a className="btn btn-danger">ADD TASK</a>
-          </Link>
-        </div>
       </div>
       <div className="row">
         <div className="container text-center">
@@ -82,25 +75,21 @@ const UserDetails = ({ User, Todos }) => {
           <div key={task.id} className="col-sm-3">
             <div className="card">
               <div className="card-body">
-                <p className="card-text">İsim: {task.title}</p>
-                <p className="card-text">E-Mail : {User.data.email}</p>
-                <p className="card-text">Actived :{User.data.status}</p>
-                <p className="card-text">Gender : {User.data.gender}</p>
-                <div className="d-flex justify-content-around">
-                  <Link href={`/settings/${User.data.id}`}>
-                    <a className="btn btn-primary">Düzenle</a>
-                  </Link>
-                  <button
-                    onClick={() => deletePerson(User.id)}
-                    className="btn btn-danger"
-                  >
-                    Sil
-                  </button>
-                </div>
+                <p className="card-text">Task Name: {task.title}</p>
+                <p className="card-text">Due-On: {task.due_on}</p>
+                <p className="card-text">Status:{task.status}</p>
+                <div className="d-flex justify-content-around"></div>
               </div>
             </div>
           </div>
         ))}
+      </div>
+      <div className="row mt-3 justify-content-center">
+        <div className="col-sm-3">
+          <Link href={`/addtask/${User.data.id}`}>
+            <a className="btn btn-danger">ADD TASK</a>
+          </Link>
+        </div>
       </div>
     </div>
   );
