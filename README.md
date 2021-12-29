@@ -36,6 +36,10 @@ use that npm run dev and you see project on your browser Localhost:3000 .
  1. For Rest Service , using Java 11,Jpa,Maven,Spring boot,Postgresql DB.
  2. For Front-end project using, React,Nextjs,React Hook,Bootstrap.
  
+ ## Deployment 
+ 1. Back-End service on Heroku.Create a heroku postgres DB.Create a app on Heroku server.And change application.properties settings for Heroku DB.And use github for deploy your projects.
+ 2. Front-End project on Netlify.You need again github auth.And create a deploy project on netlify.And select the github repo and deploy.
+ 
  ## What Can be add for next?
  Maybe add user auth.
  
